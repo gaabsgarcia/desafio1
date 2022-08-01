@@ -1,5 +1,5 @@
 const request = require('supertest');
-const { validate } = require('uuid');
+const { validate } = require('uuidv4');
 
 const app = require('../');
 
