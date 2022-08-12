@@ -1,12 +1,13 @@
 import express, { Request, Response, NextFunction } from "express";
-import { v4 } from "uuid";
 import cors from "cors";
 import http from "http";
+const { uuid } = require("uuidv4");
 
-export const app = express();
+const app = express();
 
-app.use(express.json());
 app.use(cors());
+app.use(express.json());
+
 const serverHttp = http.createServer(app);
 
 const users: {
@@ -43,7 +44,7 @@ app.post("/users", (request: Request, response: Response) => {
   }
 
   users.push({
-    id: v4(),
+    id: uuid(),
     name,
     username,
     todos: [],
@@ -69,7 +70,7 @@ app.post(
     const { user } = request;
 
     const insertTodo = {
-      id: v4(),
+      id: uuid(),
       title,
       done: false,
       deadline: new Date(deadline),
@@ -88,7 +89,7 @@ app.put(
   (request: Request, response: Response) => {
     const { title, deadline } = request.body;
     const { user } = request;
-    const {id} = request.params;
+    const { id } = request.params;
 
     if (user.todos.id === id) {
       user.todos.title = title;
@@ -104,14 +105,14 @@ app.patch(
   checksExistsUserAccount,
   (request: Request, response: Response) => {
     const { user } = request;
-    const id: string = request.path;
+    const { id } = request.params;
 
-    if (user.todos.id === id) {
-      user.todos.done = true;
+    const todo = user.todos.id === id;
+
+    if (!todo) {
+      return response.status(404).json({ error: "Todo not found" });
     }
-
     return response.status(201);
-  
   }
 );
 
@@ -120,13 +121,14 @@ app.delete(
   checksExistsUserAccount,
   (request: Request, response: Response) => {
     const { user } = request;
-  
+    const { id } = request.params;
+
     users.splice(user, 1);
 
-    return response.status(200).json(users);
+    return response.status(204).json(users);
   }
 );
 
 app.listen(3333);
 
-export { serverHttp };
+export default { serverHttp, app };
