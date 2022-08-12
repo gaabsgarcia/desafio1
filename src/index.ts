@@ -1,7 +1,7 @@
 import express, { Request, Response, NextFunction } from "express";
 import cors from "cors";
 import http from "http";
-const { uuid } = require("uuidv4");
+import { v4 } from "uuid";
 
 const app = express();
 
@@ -44,7 +44,7 @@ app.post("/users", (request: Request, response: Response) => {
   }
 
   users.push({
-    id: uuid(),
+    id: v4(),
     name,
     username,
     todos: [],
@@ -70,7 +70,7 @@ app.post(
     const { user } = request;
 
     const insertTodo = {
-      id: uuid(),
+      id: v4(),
       title,
       done: false,
       deadline: new Date(deadline),
