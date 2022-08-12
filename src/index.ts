@@ -131,4 +131,4 @@ app.delete(
 
 app.listen(3333);
 
-export { serverHttp, app };
+export default { serverHttp, app };

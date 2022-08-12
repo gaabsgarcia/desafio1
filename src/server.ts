@@ -1,3 +1,3 @@
-import { serverHttp } from './index';
+import serverHttp  from './index';
 
-serverHttp.listen(3333, () => console.log("Server is running on PORT 3333"));
+serverHttp.serverHttp.listen(3333, () => console.log("Server is running on PORT 3333"));
