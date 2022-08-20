@@ -37,7 +37,7 @@ function checksExistsUserAccount(
 
 app.post("/users", (request: Request, response: Response) => {
   const { username, name } = request.body;
-  const usersAlredyExists = users.find((user) => user.username === username); //verifica se existem 'username's existentes;
+  const usersAlredyExists  = users.find((user) => user.username === username); //verifica se existem 'username's existentes;
 
   if (usersAlredyExists) {
     return response.status(400).json({ error: "User alredy exists!" });
